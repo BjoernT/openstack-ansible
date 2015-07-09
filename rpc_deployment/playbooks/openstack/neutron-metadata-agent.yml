@@ -16,8 +16,8 @@
 - hosts: neutron_metadata_agent
   user: root
   roles:
-    - neutron_common
-    - init_script
+    - { role: neutron_common, when: "'neutron-metadata-agent' in service_names" }
+    - { role: init_script, when: "'neutron-metadata-agent' in service_names" }
   vars_files:
     - inventory/group_vars/neutron_all.yml
     - vars/openstack_service_vars/neutron_metadata_agent.yml

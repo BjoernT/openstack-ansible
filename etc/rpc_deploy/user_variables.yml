@@ -117,6 +117,8 @@ maas_scheme: https
 # maas_nova_scheme: http
 maas_keystone_user: maas
 maas_keystone_password:
+maas_rabbitmq_user: maas_user
+maas_rabbitmq_password:
 # Check this number of times before registering state change
 maas_alarm_local_consecutive_count: 3
 maas_alarm_remote_consecutive_count: 1
@@ -137,7 +139,8 @@ maas_monitoring_zones:
 # Set the following to skip creating alarms for this device
 #maas_excluded_devices: ['xvde']
 # Set the threshold for filesystem monitoring when you are not specifying specific filesystems.
-maas_filesystem_threshold: 90.0
+maas_filesystem_warning_threshold: 80.0
+maas_filesystem_critical_threshold: 90.0
 # Explicitly set the filesystems to set up monitors/alerts for.
 # NB You can override these in rpc_user_config per device using "maas_filesystem_overrides"
 #maas_filesystem_monitors:
@@ -219,3 +222,18 @@ swift_dispersion_password:
 #   - { package: "logstash", version: "1.4.2-1-2c0f5a1" }
 #   - { package: "logstash-contrib", version: "1.4.2-1-efd53ef" }
 #   - { package: "elasticsearch", version: "1.2.4" }
+
+## Environment variable settings
+# This allows users to specify the additional environment variables to be set
+# which is useful in setting where you working behind a proxy. If working behind
+# a proxy It's important to always specify the scheme as "http://". This is what
+# the underlying python libraries will handle best. This proxy information will be
+# placed both on the hosts and inside the containers.
+
+## Example environment variable setup:
+# proxy_env_url: http://username:pa$$w0rd@10.10.10.9:9000/
+# no_proxy_env: "localhost,127.0.0.1,{% for host in groups['all_containers'] %}{{ hostvars[host]['container_address'] }}{% if not loop.last %},{% endif %}{% endfor %}"
+# global_environment_variables:
+#   HTTP_PROXY: "{{ proxy_env_url }}"
+#   HTTPS_PROXY: "{{ proxy_env_url }}"
+#   NO_PROXY: "{{ no_proxy_env }}"
