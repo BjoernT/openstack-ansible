@@ -35,11 +35,14 @@ container_mysql_user: nova
 container_mysql_password: "{{ nova_container_mysql_password }}"
 container_database: nova
 nova_db_max_overflow: 10
-nova_db_max_pool_size: 5
+nova_db_max_pool_size: 120
 nova_db_pool_timeout: 30
 
 ## RPC
 rpc_backend: nova.openstack.common.rpc.impl_kombu
+nova_rpc_thread_pool_size: 64
+nova_rpc_conn_pool_size: 30
+nova_rpc_response_timeout: 60
 
 ## Nova virtualization Type, set to KVM if supported
 virt_type: "{{ nova_virt_type|default('kvm') }}"
@@ -74,11 +77,23 @@ nova_compute_driver: libvirt.LibvirtDriver
 nova_max_age: 0
 nova_remove_unused_resized_minimum_age_seconds: 3600
 nova_image_cache_manager_interval: 0
+nova_resume_guests_state_on_host_boot: False
 
 # Nova quota
+nova_quota_cores: 20
+nova_quota_fixed_ips: -1
+nova_quota_floating_ips: 10
 nova_quota_injected_file_content_bytes: 10240
 nova_quota_injected_file_path_length: 255
 nova_quota_injected_files: 5
+nova_quota_instances: 10
+nova_quota_key_pairs: 100
+nova_quota_metadata_items: 128
+nova_quota_ram: 51200
+nova_quota_security_group_rules: 20
+nova_quota_security_groups: 10
+nova_quota_server_group_members: 10
+nova_quota_server_groups: 10
 
 # Nova Scheduler
 nova_cpu_allocation_ratio: 2.0

@@ -1,5 +1,5 @@
 ---
-# Copyright 2014, Rackspace US, Inc.
+# Copyright 2015, Rackspace US, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,12 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-repo_path: "{{ pip_wheel_name }}_{{ git_install_branch | replace('/', '_') }}"
-
-## Git Source
-git_repo: https://github.com/openstack/python-ceilometerclient
-git_fallback_repo: https://git.openstack.org/openstack/python-ceilometerclient
-git_dest: "/opt/{{ repo_path }}"
-git_install_branch: 1.0.12
-
-pip_wheel_name: python-ceilometerclient
+- name: Disable unattended upgrades
+  file:
+    name: '/etc/apt/apt.conf.d/50unattended-upgrades'
+    state: absent

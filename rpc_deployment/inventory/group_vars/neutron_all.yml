@@ -53,14 +53,18 @@ container_mysql_user: neutron
 container_mysql_password: "{{ neutron_container_mysql_password }}"
 container_database: neutron
 neutron_db_max_overflow: 10
-neutron_db_pool_size: 5
+neutron_db_pool_size: 120
 neutron_db_pool_timeout: 30
 
 ## RPC
 # ``neutron_rpc_workers`` is an experimental feature in neutron master (as of 03/2015) and
 # the value will be 0 by default.
+neutron_api_workers: 10
 neutron_rpc_workers: 0
 rpc_backend: rabbit
+neutron_rpc_thread_pool_size: 64
+neutron_rpc_conn_pool_size: 30
+neutron_rpc_response_timeout: 60
 
 ## Nova Auth
 service_admin_tenant_name: "service"
@@ -104,3 +108,22 @@ neutron_services:
  - { service_name: neutron-metering-agent, service_en: True, service_conf: metering_agent.ini }
  - { service_name: neutron-l3-agent, service_en: True, service_conf: l3_agent.ini, service_rootwrap: rootwrap.d/l3.filters }
  - { service_name: neutron-server, service_en: True, service_conf: "{{ neutron_plugins[neutron_plugin_type].plugin_ini }}", service_rootwrap: rootwrap.conf }
+
+## Neutron Quota
+neutron_default_quota: -1
+neutron_quota_firewall: 1
+neutron_quota_firewall_policy: 1
+neutron_quota_firewall_rule: 100
+neutron_quota_floatingip: 50
+neutron_quota_health_monitor: -1
+neutron_quota_member: -1
+neutron_quota_network: 10
+neutron_quota_network_gateway: 5
+neutron_quota_packet_filter: 100
+neutron_quota_pool: 10
+neutron_quota_port: 50
+neutron_quota_router: 10
+neutron_quota_security_group: 10
+neutron_quota_security_group_rule: 100
+neutron_quota_subnet: 10
+neutron_quota_vip: 10
